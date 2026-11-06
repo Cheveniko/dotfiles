@@ -5,7 +5,9 @@ usage() {
   cat <<'EOF'
 Usage: bash scripts/install.sh [--dry-run] [--backup]
 
-Link Zsh, WezTerm and Neovim to this checkout. No packages are installed.
+Link Zsh, WezTerm, Neovim, OpenCode, Claude Code, IdeaVim and Git to this checkout.
+Only selected configuration files are linked for the AI tools; their data
+directories stay untouched. No packages are installed.
 Existing files are never overwritten. Use --backup to move conflicts into
 ~/.local/state/dotfiles/backups/ before linking, or --dry-run to only preview.
 EOF
@@ -23,8 +25,32 @@ for arg in "$@"; do
 done
 
 repo_root="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd -P)"
-sources=("$repo_root/zsh/.zshrc" "$repo_root/wezterm/.wezterm.lua" "$repo_root/nvim/.config/nvim")
-relative_targets=(".zshrc" ".wezterm.lua" ".config/nvim")
+sources=(
+  "$repo_root/zsh/.zshrc"
+  "$repo_root/wezterm/.wezterm.lua"
+  "$repo_root/nvim/.config/nvim"
+  "$repo_root/opencode/.config/opencode/opencode.json"
+  "$repo_root/opencode/.config/opencode/cli.json"
+  "$repo_root/opencode/.config/opencode/AGENTS.md"
+  "$repo_root/claude/.claude/settings.json"
+  "$repo_root/claude/.claude/CLAUDE.md"
+  "$repo_root/ideavim/.ideavimrc"
+  "$repo_root/git/.gitconfig"
+  "$repo_root/git/.config/git/ignore"
+)
+relative_targets=(
+  ".zshrc"
+  ".wezterm.lua"
+  ".config/nvim"
+  ".config/opencode/opencode.json"
+  ".config/opencode/cli.json"
+  ".config/opencode/AGENTS.md"
+  ".claude/settings.json"
+  ".claude/CLAUDE.md"
+  ".ideavimrc"
+  ".gitconfig"
+  ".config/git/ignore"
+)
 backup_root="${XDG_STATE_HOME:-$HOME/.local/state}/dotfiles/backups/$(date -u +%Y%m%dT%H%M%SZ)-$$"
 
 is_linked() {

@@ -8,6 +8,7 @@
 .npmrc
 .pgpass
 .netrc
+.git-credentials
 **/db_ui/
 **/.ssh/
 **/backups/
@@ -16,3 +17,14 @@
 
 __pycache__/
 *.pyc
+
+# Only reviewed, public AI configuration belongs in these packages.
+/opencode/.config/opencode/*
+!/opencode/.config/opencode/opencode.json
+!/opencode/.config/opencode/cli.json
+!/opencode/.config/opencode/AGENTS.md
+/claude/.claude/*
+!/claude/.claude/settings.json
+!/claude/.claude/CLAUDE.md
+.claude.json
+.credentials.json

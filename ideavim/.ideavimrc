@@ -1,0 +1,51 @@
+""" Mappings --------------------------------
+" Leader
+let mapleader = "\<SPACE>"
+
+" Go tos
+nmap gd <Action>(GotoDeclaration)
+nmap gh <Action>(ShowHoverInfo)
+
+" Copy to end of line
+nnoremap Y y$
+vnoremap Y $y
+
+" Copy to system clipboard
+vmap <Leader>y "+y
+vmap <Leader>Y "+$y
+
+" Remove highlighted search results
+nnoremap <Esc> :nohlsearch<cr>
+
+" Switch between windows
+map <C-h> <C-W>h
+map <C-l> <C-W>l
+map <C-j> <C-W>j
+map <C-k> <C-W>k
+
+" Open Terminal (instead of option + F12 🙄)
+nmap <Leader>t :action ActivateTerminalToolWindow<CR>
+
+" Format code
+nnoremap <Leader>f :action ReformatCode<CR>
+
+" Keep cursor in the middle
+nnoremap <C-d> <C-d>zz
+nnoremap <C-u> <C-u>zz
+nnoremap n nzz
+nnoremap N Nzz
+nnoremap <C-o> <C-o>zz
+nnoremap <C-i> <C-i>zz
+nnoremap G Gzz
+
+""" Options --------------------------------
+set ignorecase
+set smartcase
+set updatetime=250
+set timeoutlen=300
+set splitright
+set splitbelow
+set scrolloff=10
+set hlsearch
+set incsearch
+set history=1000

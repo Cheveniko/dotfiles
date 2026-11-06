@@ -13,6 +13,10 @@ Mi configuración de macOS: Zsh, WezTerm y Neovim. Este repo continúa el histor
 ├── zsh/.zshrc
 ├── wezterm/.wezterm.lua
 ├── nvim/.config/nvim/
+├── opencode/.config/opencode/
+├── claude/.claude/
+├── ideavim/.ideavimrc
+├── git/
 └── scripts/install.sh
 ```
 
@@ -120,6 +124,55 @@ Instalar servicios no implica iniciarlos. Cuando se necesiten:
 brew services start postgresql@17
 brew services start redis
 ```
+
+### 6. OpenCode y Claude Code
+
+El mismo instalador enlaza cinco archivos de configuración pública:
+
+```text
+~/.config/opencode/opencode.json
+~/.config/opencode/cli.json
+~/.config/opencode/AGENTS.md
+~/.claude/settings.json
+~/.claude/CLAUDE.md
+```
+
+Se enlazan los archivos individuales, no las carpetas completas. Los datos de las
+aplicaciones, credenciales, sesiones y skills existentes quedan intactos. Al
+volver a ejecutar `bash scripts/install.sh --backup`, solo se respaldan y enlazan
+los archivos que todavía no apuntan a este checkout.
+
+La configuración de OpenCode incluye el endpoint público del MCP de Linear, sin
+tokens. En la nueva Mac, iniciar sesión en OpenCode y volver a autenticar Linear
+desde `/mcps`. Para forzar una recarga de la configuración, usar `/reload`.
+
+En Claude Code, iniciar sesión nuevamente y reinstalar el plugin oficial de
+Figma si no estuviera disponible. Se conservan tus preferencias actuales sin
+migrar `~/.claude.json`, credenciales ni historiales.
+
+Las skills no se incluyen en el repo público: su respaldo y sus licencias se
+gestionan por separado. Codex continúa fuera de esta configuración.
+
+### 7. Git e IdeaVim
+
+El instalador también enlaza estos archivos, con respaldo de cualquier versión
+existente:
+
+```text
+~/.ideavimrc
+~/.gitconfig
+~/.config/git/ignore
+```
+
+IdeaVim conserva tus mappings y opciones. Instalar el plugin IdeaVim desde el IDE
+de JetBrains que utilices; este repo no instala los IDE ni sus plugins.
+
+La configuración de Git conserva tu identidad actual con el correo noreply de
+GitHub. El ignore global evita subir `**/.claude/settings.local.json` por error;
+Git utiliza `~/.config/git/ignore` de forma predeterminada cuando no se configura
+otro `core.excludesFile` ni se cambia `XDG_CONFIG_HOME`.
+
+Raycast se restaura desde su respaldo privado en la nube. VS Code no se incluye.
 
 ## Arranque rápido de Zsh
 
