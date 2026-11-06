@@ -4,8 +4,6 @@ My dotfiles setup for zsh, wezterm, neovim and brew formulae.
 
 # AI SLOP
 
-## dotfiles
-
 Mi configuración de macOS: Zsh, WezTerm y Neovim. Este repo continúa el historial de
 `neovim-btw`; no es una configuración nueva de Neovim desde cero.
 
