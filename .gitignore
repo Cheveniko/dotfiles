@@ -1,9 +1,18 @@
-tags
-test.sh
-.luarc.json
-nvim
-
-spell/
-lazy-lock.json
-
 .DS_Store
+
+# Private, machine-specific configuration must never enter this public repo.
+.env
+.env.*
+.zshrc.local
+.wezterm.local.lua
+.npmrc
+.pgpass
+.netrc
+**/db_ui/
+**/.ssh/
+**/backups/
+*.pem
+*.key
+
+__pycache__/
+*.pyc

@@ -27,7 +27,8 @@ return {
     { 'Bilal2453/luvit-meta', lazy = true },
   },
   config = function()
-    local java21_home = '/opt/homebrew/opt/openjdk@21'
+    local brew_prefix = vim.env.HOMEBREW_PREFIX or (vim.fn.isdirectory '/opt/homebrew' == 1 and '/opt/homebrew' or '/usr/local')
+    local java21_home = brew_prefix .. '/opt/openjdk@21/libexec/openjdk.jdk/Contents/Home'
 
     vim.api.nvim_create_autocmd('LspAttach', {
       group = vim.api.nvim_create_augroup('config-lsp-attach', { clear = true }),
