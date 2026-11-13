@@ -1,0 +1,4 @@
+{
+  /* Ctrl+W deletes the previous word, as in the terminal. */
+  "^w" = "deleteWordBackward:";
+}

@@ -19,7 +19,7 @@ return {
   lazy = false,
   ---@type snacks.Config
   opts = {
-    bigfile = { size = 50 * 1024 * 1024 },
+    bigfile = { size = 2 * 1024 * 1024 },
     quickfile = { enabled = true },
   },
 }

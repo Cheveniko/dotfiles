@@ -5,7 +5,8 @@ usage() {
   cat <<'EOF'
 Usage: bash scripts/install.sh [--dry-run] [--backup]
 
-Link Zsh, WezTerm, Neovim, OpenCode, Claude Code, IdeaVim and Git to this checkout.
+Link Zsh, WezTerm, Neovim, OpenCode, Claude Code, IdeaVim, Git and macOS key
+bindings to this checkout.
 Only selected configuration files are linked for the AI tools; their data
 directories stay untouched. No packages are installed.
 Existing files are never overwritten. Use --backup to move conflicts into
@@ -37,6 +38,7 @@ sources=(
   "$repo_root/ideavim/.ideavimrc"
   "$repo_root/git/.gitconfig"
   "$repo_root/git/.config/git/ignore"
+  "$repo_root/macos/Library/KeyBindings/DefaultKeyBinding.dict"
 )
 relative_targets=(
   ".zshrc"
@@ -50,6 +52,7 @@ relative_targets=(
   ".ideavimrc"
   ".gitconfig"
   ".config/git/ignore"
+  "Library/KeyBindings/DefaultKeyBinding.dict"
 )
 backup_root="${XDG_STATE_HOME:-$HOME/.local/state}/dotfiles/backups/$(date -u +%Y%m%dT%H%M%SZ)-$$"
 

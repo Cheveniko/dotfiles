@@ -13,7 +13,7 @@ return {
       accept = { auto_brackets = { enabled = true } },
     },
     enabled = function()
-      return not vim.tbl_contains({ 'gitcommit', 'DressingInput', 'AvanteInput' }, vim.bo.filetype)
+      return not vim.tbl_contains({ 'gitcommit', 'DressingInput' }, vim.bo.filetype)
     end,
     sources = {
       default = { 'lazydev', 'lsp', 'path', 'snippets', 'buffer' },

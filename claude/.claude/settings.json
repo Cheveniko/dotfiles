@@ -1,11 +1,11 @@
 {
-  "model": "opus",
+  "model": "opus[1m]",
+  "enabledPlugins": {
+    "figma@claude-plugins-official": true
+  },
   "effortLevel": "high",
   "tui": "fullscreen",
   "skipDangerousModePermissionPrompt": true,
-  "theme": "dark",
-  "agentPushNotifEnabled": true,
-  "enabledPlugins": {
-    "figma@claude-plugins-official": true
-  }
+  "theme": "auto",
+  "agentPushNotifEnabled": true
 }

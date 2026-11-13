@@ -1,5 +1,8 @@
 return {
   'sudo-tee/opencode.nvim',
+  cmd = 'Opencode',
+  -- Load on the prefix so all of the plugin's default shortcuts stay available.
+  keys = { { '<leader>o', mode = { 'n', 'x' }, desc = 'OpenCode' } },
   config = function()
     local function insert_newline()
       local enter = vim.api.nvim_replace_termcodes('<cr>', true, false, true)
@@ -32,7 +35,7 @@ return {
         anti_conceal = { enabled = false },
         file_types = { 'opencode_output' },
       },
-      ft = { 'Avante', 'copilot-chat', 'opencode_output' },
+      ft = 'opencode_output',
     },
     'saghen/blink.cmp',
     'nvim-telescope/telescope.nvim',

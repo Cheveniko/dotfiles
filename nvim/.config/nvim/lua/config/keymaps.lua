@@ -77,9 +77,6 @@ vim.keymap.set('n', '<leader>lr', function()
   vim.cmd 'lsp restart'
 end, { desc = '[L]SP [R]estart' })
 
--- Avante
-vim.keymap.set('n', '<leader>ae', 'v<cmd>AvanteEdit<CR>', { desc = 'avante: edit' })
-
 -- Increase and decrease window size
 vim.keymap.set('n', '>', '<C-w>>', { desc = 'Increase window width' })
 vim.keymap.set('n', '<lt>', '<C-w><lt>', { desc = 'Decrease window width' })

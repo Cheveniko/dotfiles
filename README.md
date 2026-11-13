@@ -17,6 +17,7 @@ Mi configuración de macOS: Zsh, WezTerm y Neovim. Este repo continúa el histor
 ├── claude/.claude/
 ├── ideavim/.ideavimrc
 ├── git/
+├── macos/Library/KeyBindings/
 └── scripts/install.sh
 ```
 
@@ -107,9 +108,21 @@ ejecutar sus herramientas con `uv run`. No instalar paquetes globalmente con pip
 
 ### 5. Neovim y servicios locales
 
-Esta configuración requiere Neovim 0.12. En el primer arranque, Lazy instala los
+Esta configuración requiere Neovim 0.12 y `tree-sitter-cli` (incluido en el Brewfile).
+Treesitter usa la rama `main` y su API nueva: instala los parsers base al arrancar
+y activa el resaltado y la indentación al abrir archivos con un parser disponible.
+Los demás parsers se instalan solos la primera vez que se abre un archivo de ese
+lenguaje, y el resaltado se activa al terminar. Actualizarlos con `:TSUpdate`.
+Se conservan las exclusiones de CSV y la indentación tradicional de Ruby;
+Markdown y MDX usan las queries de los plugins, sin overrides locales.
+En el primer arranque, Lazy instala los
 plugins siguiendo `lazy-lock.json`; Mason instala los servidores configurados y
 StyLua. Revisar `:checkhealth`, `:Mason` y `:ConformInfo` después de instalar.
+
+Telescope, OpenCode, LeetCode, nvim-tree, Fugitive y Undotree se cargan al usarlos.
+Se conservan los atajos, `nvim leetcode.nvim` y la apertura del árbol al abrir un
+directorio. Los menús de selección usan Telescope y las entradas de texto, Dressing.
+Snacks reduce funciones costosas en archivos de más de 2 MB o con líneas muy largas.
 
 Los formateadores de Conform distintos de StyLua no se instalan automáticamente
 en esta configuración. Instalar solo los que necesite cada proyecto. El preview
@@ -174,6 +187,13 @@ otro `core.excludesFile` ni se cambia `XDG_CONFIG_HOME`.
 
 Raycast se restaura desde su respaldo privado en la nube. VS Code no se incluye.
 
+### 8. Atajos de texto de macOS
+
+El instalador enlaza `~/Library/KeyBindings/DefaultKeyBinding.dict`, que agrega
+`Ctrl+W` para borrar la palabra anterior en los campos de texto de las apps
+nativas (Raycast, Notas, Safari, Finder…), igual que en la terminal. No aplica a
+Chrome, Electron ni JetBrains. Cada app lo carga al volver a abrirla.
+
 ## Arranque rápido de Zsh
 
 Se conserva Oh My Zsh con el tema `miloshadzic`, autocompletado, sugerencias y
@@ -195,14 +215,13 @@ tardar más mientras se generan las cachés de completado.
 
 ## WezTerm
 
-Se conservan colores, fuentes, fullscreen y atajos. Se mantiene
-`front_end = "OpenGL"` para conservar la apariencia original de las fuentes.
-Se probó `WebGpu` (Metal en macOS), pero las letras se percibían más gruesas.
+WezTerm arranca maximizado, sin barra de título ni fullscreen nativo de macOS
+(la navegación entre ventanas se hace con Raycast). Usa `front_end = "WebGpu"`
+(Metal) a 120 fps para la pantalla ProMotion y padding uniforme de `6pt`.
 La mejora del arranque de Zsh no depende del renderizador de WezTerm.
 
-El Brewfile usa el canal estable. La versión instalada al preparar este repo,
-`20240203-110809-5046fc22`, era también la última marcada como estable en GitHub.
-No se instala una nightly automáticamente.
+El Brewfile instala `wezterm@nightly`: el último release estable
+(`20240203-110809-5046fc22`) es de 2024 y la nightly trae los arreglos recientes.
 
 ## Archivos privados
 
@@ -224,14 +243,6 @@ git remote set-url origin https://github.com/Cheveniko/dotfiles.git
 ```
 
 No hace falta crear otro repo remoto ni sobrescribir el historial.
-
-## Comprobar el instalador
-
-Las pruebas usan homes temporales; no modifican los dotfiles reales:
-
-```sh
-uv run --python 3.14 --no-project python -m unittest discover -s tests -v
-```
 
 ## Créditos
 

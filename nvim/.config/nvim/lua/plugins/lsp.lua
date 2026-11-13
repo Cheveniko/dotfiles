@@ -29,6 +29,23 @@ return {
   config = function()
     local brew_prefix = vim.env.HOMEBREW_PREFIX or (vim.fn.isdirectory '/opt/homebrew' == 1 and '/opt/homebrew' or '/usr/local')
     local java21_home = brew_prefix .. '/opt/openjdk@21/libexec/openjdk.jdk/Contents/Home'
+    local highlight_group = vim.api.nvim_create_augroup('config-lsp-highlight', { clear = true })
+
+    vim.api.nvim_create_autocmd('LspDetach', {
+      group = vim.api.nvim_create_augroup('config-lsp-detach', { clear = true }),
+      callback = function(event)
+        for _, client in ipairs(vim.lsp.get_clients { bufnr = event.buf }) do
+          if
+            client.id ~= event.data.client_id
+            and client:supports_method(vim.lsp.protocol.Methods.textDocument_documentHighlight)
+          then
+            return
+          end
+        end
+        vim.lsp.util.buf_clear_references(event.buf)
+        vim.api.nvim_clear_autocmds { group = highlight_group, buffer = event.buf }
+      end,
+    })
 
     vim.api.nvim_create_autocmd('LspAttach', {
       group = vim.api.nvim_create_augroup('config-lsp-attach', { clear = true }),
@@ -37,12 +54,17 @@ return {
           vim.keymap.set('n', keys, func, { buffer = event.buf, desc = 'LSP: ' .. desc })
         end
 
-        map('gd', require('telescope.builtin').lsp_definitions, '[G]oto [D]efinition')
-        map('gr', require('telescope.builtin').lsp_references, '[G]oto [R]eferences')
-        map('gI', require('telescope.builtin').lsp_implementations, '[G]oto [I]mplementation')
-        map('<leader>D', require('telescope.builtin').lsp_type_definitions, 'Type [D]efinition')
-        map('<leader>ds', require('telescope.builtin').lsp_document_symbols, '[D]ocument [S]ymbols')
-        map('<leader>ws', require('telescope.builtin').lsp_dynamic_workspace_symbols, '[W]orkspace [S]ymbols')
+        local telescope_map = function(keys, picker, desc)
+          map(keys, function()
+            require('telescope.builtin')[picker]()
+          end, desc)
+        end
+        telescope_map('gd', 'lsp_definitions', '[G]oto [D]efinition')
+        telescope_map('gr', 'lsp_references', '[G]oto [R]eferences')
+        telescope_map('gI', 'lsp_implementations', '[G]oto [I]mplementation')
+        telescope_map('<leader>D', 'lsp_type_definitions', 'Type [D]efinition')
+        telescope_map('<leader>ds', 'lsp_document_symbols', '[D]ocument [S]ymbols')
+        telescope_map('<leader>ws', 'lsp_dynamic_workspace_symbols', '[W]orkspace [S]ymbols')
         map('<leader>rn', vim.lsp.buf.rename, '[R]e[n]ame')
         map('<leader>ca', vim.lsp.buf.code_action, '[C]ode [A]ction')
         map('gh', vim.lsp.buf.hover, '[H]over Documentation')
@@ -50,25 +72,17 @@ return {
 
         local client = vim.lsp.get_client_by_id(event.data.client_id)
         if client and client:supports_method(vim.lsp.protocol.Methods.textDocument_documentHighlight) then
-          local highlight_augroup = vim.api.nvim_create_augroup('config-lsp-highlight', { clear = false })
+          vim.api.nvim_clear_autocmds { group = highlight_group, buffer = event.buf }
           vim.api.nvim_create_autocmd({ 'CursorHold', 'CursorHoldI' }, {
             buffer = event.buf,
-            group = highlight_augroup,
+            group = highlight_group,
             callback = vim.lsp.buf.document_highlight,
           })
 
           vim.api.nvim_create_autocmd({ 'CursorMoved', 'CursorMovedI' }, {
             buffer = event.buf,
-            group = highlight_augroup,
+            group = highlight_group,
             callback = vim.lsp.buf.clear_references,
-          })
-
-          vim.api.nvim_create_autocmd('LspDetach', {
-            group = vim.api.nvim_create_augroup('config-lsp-detach', { clear = true }),
-            callback = function(event2)
-              vim.lsp.buf.clear_references()
-              vim.api.nvim_clear_autocmds { group = 'config-lsp-highlight', buffer = event2.buf }
-            end,
           })
         end
 

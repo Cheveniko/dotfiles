@@ -6,7 +6,6 @@ local function my_on_attach(bufnr)
   end
 
   api.config.mappings.default_on_attach(bufnr)
-  vim.keymap.set('n', '<C-f>', api.tree.toggle)
   vim.keymap.set('n', 'J', api.node.navigate.sibling.next, opts 'Next Sibling')
   vim.keymap.set('n', 'K', api.node.navigate.sibling.prev, opts 'Previous Sibling')
   vim.keymap.del('n', '>', opts 'Increase Width')
@@ -26,7 +25,30 @@ end
 return {
   'nvim-tree/nvim-tree.lua',
   version = '*',
-  lazy = false,
+  cmd = {
+    'NvimTreeToggle',
+    'NvimTreeOpen',
+    'NvimTreeClose',
+    'NvimTreeFocus',
+    'NvimTreeFindFile',
+    'NvimTreeFindFileToggle',
+    'NvimTreeRefresh',
+    'NvimTreeCollapse',
+    'NvimTreeResize',
+  },
+  keys = { { '<C-f>', '<cmd>NvimTreeToggle<CR>', desc = 'Toggle file tree' } },
+  init = function()
+    vim.api.nvim_create_autocmd('BufEnter', {
+      group = vim.api.nvim_create_augroup('config-nvim-tree-directory', { clear = true }),
+      callback = function(event)
+        if vim.fn.isdirectory(event.file) == 1 then
+          -- Match nvim-tree's own directory hijack, which also changes the cwd.
+          vim.cmd.cd(vim.fn.fnameescape(event.file))
+          require('nvim-tree.api').tree.open { path = event.file }
+        end
+      end,
+    })
+  end,
   dependencies = {
     'nvim-tree/nvim-web-devicons',
   },

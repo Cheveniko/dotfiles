@@ -1,5 +1,6 @@
 # Editor and dotfiles
 brew "neovim"
+brew "tree-sitter-cli"
 brew "ripgrep"
 brew "fd"
 brew "stow"
@@ -22,9 +23,10 @@ brew "flyctl"
 brew "eas-cli"
 brew "opencode"
 brew "jq"
+brew "gh"
 
 # macOS applications and the font used by WezTerm
-cask "wezterm"
+cask "wezterm@nightly"
 cask "font-jetbrains-mono-nerd-font"
 cask "claude-code"
 cask "keycastr"
