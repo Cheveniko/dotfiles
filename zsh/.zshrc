@@ -63,6 +63,7 @@ alias wezrc='nvim "$HOME/.wezterm.lua"'
 alias dadbod='nvim "$HOME/.local/share/db_ui"'
 alias grind="nvim leetcode.nvim"
 alias lsplog='nvim "$HOME/.local/state/nvim/lsp.log"'
+alias dotfiles='nvim "$HOME/Developer/dotfiles"'
 
 alias exti="exit"
 alias eixt="exit"

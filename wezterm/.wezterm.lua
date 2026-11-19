@@ -51,8 +51,8 @@ config.send_composed_key_when_right_alt_is_pressed = true
 config.window_padding = {
 	left = "6pt",
 	right = "6pt",
-	top = "6pt",
-	bottom = "6pt",
+	top = "0pt",
+	bottom = "0pt",
 }
 
 config.enable_kitty_graphics = true
