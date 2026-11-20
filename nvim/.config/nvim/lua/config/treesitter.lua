@@ -3,7 +3,7 @@ local M = {}
 function M.setup()
   local treesitter = require 'nvim-treesitter'
   treesitter.setup {}
-  treesitter.install { 'diff', 'lua', 'luadoc', 'query', 'javascript', 'typescript', 'tsx', 'markdown', 'markdown_inline' }
+  treesitter.install { 'diff', 'lua', 'luadoc', 'query', 'javascript', 'typescript', 'tsx', 'css', 'html', 'markdown', 'markdown_inline' }
 
   local disabled = {
     csv = true,
