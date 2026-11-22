@@ -106,20 +106,27 @@ require('lazy').setup({
       { 'DaikyXendo/nvim-material-icon' },
     },
     config = function()
+      local file_ignore_patterns = { '^%.git/' }
+      local vimgrep_arguments = {
+        'rg',
+        '--color=never',
+        '--no-heading',
+        '--with-filename',
+        '--line-number',
+        '--column',
+        '--smart-case',
+        '--hidden',
+        '--glob=!.git',
+      }
+      for _, dir in ipairs(vim.g.project_hidden_dirs or {}) do
+        table.insert(file_ignore_patterns, '^' .. vim.pesc(dir) .. '/')
+        table.insert(vimgrep_arguments, '--glob=!/' .. dir .. '/')
+      end
+
       require('telescope').setup {
         defaults = {
-          file_ignore_patterns = { '^%.git/' },
-          vimgrep_arguments = {
-            'rg',
-            '--color=never',
-            '--no-heading',
-            '--with-filename',
-            '--line-number',
-            '--column',
-            '--smart-case',
-            '--hidden',
-            '--glob=!.git',
-          },
+          file_ignore_patterns = file_ignore_patterns,
+          vimgrep_arguments = vimgrep_arguments,
         },
         pickers = {
           find_files = {

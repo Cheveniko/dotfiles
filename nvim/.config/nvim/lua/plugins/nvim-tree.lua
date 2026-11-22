@@ -55,6 +55,11 @@ return {
   config = function()
     require('nvim-tree').setup {
       on_attach = my_on_attach,
+      filters = {
+        custom = vim.tbl_map(function(dir)
+          return '^' .. dir .. '$'
+        end, vim.g.project_hidden_dirs or {}),
+      },
       update_focused_file = {
         enable = true,
       },

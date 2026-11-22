@@ -64,6 +64,11 @@ vim.opt.shiftwidth = 4
 vim.opt.expandtab = true
 vim.opt.smartindent = true
 
+-- Load a trusted project-local .nvim.lua (see :help exrc and :help :trust).
+-- Projects can set vim.g.project_hidden_dirs to hide top-level directories
+-- from nvim-tree (toggle with U) and Telescope.
+vim.opt.exrc = true
+
 -- Set highlight on search, but clear it from a keymap in config.keymaps
 vim.opt.hlsearch = true
 
