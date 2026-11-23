@@ -2,7 +2,8 @@ local M = {}
 
 function M.setup()
   local treesitter = require 'nvim-treesitter'
-  treesitter.setup {}
+  local install_dir = vim.fs.joinpath(vim.fn.stdpath 'data', 'site')
+  treesitter.setup { install_dir = install_dir }
   treesitter.install { 'diff', 'lua', 'luadoc', 'query', 'javascript', 'typescript', 'tsx', 'css', 'html', 'markdown', 'markdown_inline' }
 
   local disabled = {
@@ -34,6 +35,10 @@ function M.setup()
   local available
   local installing = {}
 
+  local function is_installed(lang)
+    return vim.tbl_contains(treesitter.get_installed(), lang)
+  end
+
   local function auto_install(lang)
     if not available then
       available = {}
@@ -46,12 +51,15 @@ function M.setup()
     end
 
     installing[lang] = true
+    vim.notify(('Tree-sitter: installing %s…'):format(lang), vim.log.levels.INFO)
     treesitter.install({ lang }):await(function(err)
       vim.schedule(function()
         installing[lang] = nil
         if err then
+          vim.notify(('Tree-sitter: failed to install %s: %s'):format(lang, err), vim.log.levels.ERROR)
           return
         end
+        vim.notify(('Tree-sitter: installed %s'):format(lang), vim.log.levels.INFO)
         for _, b in ipairs(vim.api.nvim_list_bufs()) do
           if vim.api.nvim_buf_is_loaded(b) and vim.treesitter.language.get_lang(vim.bo[b].filetype) == lang then
             attach(b, lang)
@@ -69,8 +77,10 @@ function M.setup()
         return
       end
 
-      if not attach(event.buf, lang) then
+      if not is_installed(lang) then
         auto_install(lang)
+      else
+        attach(event.buf, lang)
       end
     end,
   })
